@@ -33,7 +33,7 @@ export function createFargate(stack: Construct) {
   });
 
 
-  const efsSG = new SecurityGroup(stack, efsSecurityGroupName, {
+  const efsSG = new SecurityGroup(stack, 'factorio-server-efs-security-group', {
     vpc,
     allowAllOutbound: true,
     securityGroupName: efsSecurityGroupName,
