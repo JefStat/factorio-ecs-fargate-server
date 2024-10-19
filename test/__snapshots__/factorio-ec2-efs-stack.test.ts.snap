@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FactorioEc2EfsStack Synths Stack 1`] = `
+{
+  "Parameters": {
+    "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+    },
+  },
+  "Resources": {
+    "KeyPair1622897B": {
+      "Properties": {
+        "KeyFormat": "pem",
+        "KeyName": "MyTestStackKeyPairEDAD48BF",
+        "KeyType": "rsa",
+      },
+      "Type": "AWS::EC2::KeyPair",
+    },
+    "efsaccessec204B16FDD": {
+      "DependsOn": [
+        "efsaccessec2InstanceRole01572541",
+      ],
+      "Properties": {
+        "AvailabilityZone": "dummy1a",
+        "IamInstanceProfile": {
+          "Ref": "efsaccessec2InstanceProfile23C615DF",
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestal2023amikernel61x8664C96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "InstanceType": "t2.micro",
+        "KeyName": {
+          "Ref": "KeyPair1622897B",
+        },
+        "NetworkInterfaces": [
+          {
+            "AssociatePublicIpAddress": true,
+            "DeviceIndex": "0",
+            "GroupSet": [
+              {
+                "Fn::GetAtt": [
+                  "factorioec2efsaccesssecuritygroup2B5EBD25",
+                  "GroupId",
+                ],
+              },
+            ],
+            "SubnetId": "s-12345",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "undefined-factorio-efs-access",
+          },
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash",
+        },
+      },
+      "Type": "AWS::EC2::Instance",
+    },
+    "efsaccessec2InstanceProfile23C615DF": {
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "efsaccessec2InstanceRole01572541",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "efsaccessec2InstanceRole01572541": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "undefined-factorio-efs-access",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "factorioec2efsaccesssecuritygroup2B5EBD25": {
+      "Properties": {
+        "GroupDescription": "MyTestStack/factorio-ec2-efs-access-security-group",
+        "GroupName": "undefined-factorio-ec2-efs-access-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "127.0.0.1/32",
+            "Description": "Allow SSH access from local",
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22,
+          },
+        ],
+        "VpcId": "vpc-12345",
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+  },
+}
+`;

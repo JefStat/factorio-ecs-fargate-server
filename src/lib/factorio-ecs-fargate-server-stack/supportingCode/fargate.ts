@@ -6,6 +6,7 @@ import { Peer, Port, SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Protocol } from "aws-cdk-lib/aws-ecs";
 import { LifecyclePolicy, PerformanceMode, ThroughputMode, FileSystem, AccessPoint, } from "aws-cdk-lib/aws-efs";
 import { LogGroup } from "aws-cdk-lib/aws-logs";
+import { vpcName } from "../../resources/constants";
 
 export function createFargate(stack: Construct) {
 
@@ -17,7 +18,7 @@ export function createFargate(stack: Construct) {
   })
 
   const vpc = Vpc.fromLookup(stack, "vpc", {
-    vpcName:"factorio-ecs-fargate-server-vpc",
+    vpcName
   });
 
   const fargateFactorioServerRoleName =  "Factorio-server-ecs-task-role"

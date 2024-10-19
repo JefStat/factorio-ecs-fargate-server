@@ -4,9 +4,9 @@ import { Construct } from "constructs";
 import { addVPC } from "../../resources/vpc";
 import { ManagedPolicy, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { RemovalPolicy } from "aws-cdk-lib";
+import { vpcName } from "../../resources/constants";
 
 export function createVPC(stack:Construct) {
-  const vpcName = "factorio-ecs-fargate-server-vpc";
   const vpc = new Vpc(stack, "Vpc", {
     vpcName,
     ipAddresses:IpAddresses.cidr("10.30.15.0/24"),

@@ -1,0 +1,452 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
+{
+  "Resources": {
+    "FactorioserverecstaskroleA07111A6": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "undefined-Factorio-server-ecs-task-role",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "FactorioserverecstaskroleDefaultPolicy54EF00FF": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "logs:DescribeLogGroups",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:DescribeLogStreams",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "FactorioserverecstaskroleDefaultPolicy54EF00FF",
+        "Roles": [
+          {
+            "Ref": "FactorioserverecstaskroleA07111A6",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "factorioecssecuritygroup741C5480": {
+      "Properties": {
+        "GroupDescription": "MyTestStack/factorio-ecs-security-group",
+        "GroupName": "undefined-factorio-server-ecs-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "IP range for TCP for Factorio",
+            "FromPort": 27015,
+            "IpProtocol": "tcp",
+            "ToPort": 27015,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "IP range for UDP for Factorio",
+            "FromPort": 34197,
+            "IpProtocol": "udp",
+            "ToPort": 34197,
+          },
+        ],
+        "VpcId": "vpc-12345",
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "factorioservercluster37AA4650": {
+      "Properties": {
+        "CapacityProviders": [
+          "FARGATE",
+          "FARGATE_SPOT",
+        ],
+        "Cluster": {
+          "Ref": "factorioservercluster809E5F7B",
+        },
+        "DefaultCapacityProviderStrategy": [],
+      },
+      "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
+    },
+    "factorioservercluster809E5F7B": {
+      "Properties": {
+        "ClusterName": "undefined-factorio-server-cluster",
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "factorioserverefs4E9910A3": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Encrypted": true,
+        "FileSystemTags": [
+          {
+            "Key": "Name",
+            "Value": "undefined-factorio-server-efs",
+          },
+        ],
+        "LifecyclePolicies": [
+          {
+            "TransitionToIA": "AFTER_14_DAYS",
+          },
+        ],
+        "PerformanceMode": "generalPurpose",
+        "ThroughputMode": "bursting",
+      },
+      "Type": "AWS::EFS::FileSystem",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "factorioserverefsEfsMountTarget1DC5EA57F": {
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "factorioserverefs4E9910A3",
+        },
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "factorioserverefssecuritygroupEF7491BC",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": "p-12345",
+      },
+      "Type": "AWS::EFS::MountTarget",
+    },
+    "factorioserverefsEfsMountTarget2E655D0E3": {
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "factorioserverefs4E9910A3",
+        },
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "factorioserverefssecuritygroupEF7491BC",
+              "GroupId",
+            ],
+          },
+        ],
+        "SubnetId": "p-67890",
+      },
+      "Type": "AWS::EFS::MountTarget",
+    },
+    "factorioserverefsaccesspointF89EB723": {
+      "Properties": {
+        "AccessPointTags": [
+          {
+            "Key": "Name",
+            "Value": "MyTestStack/factorio-server-efs-access-point",
+          },
+        ],
+        "FileSystemId": {
+          "Ref": "factorioserverefs4E9910A3",
+        },
+        "PosixUser": {
+          "Gid": "1000",
+          "Uid": "1000",
+        },
+        "RootDirectory": {
+          "CreationInfo": {
+            "OwnerGid": "1000",
+            "OwnerUid": "1000",
+            "Permissions": "777",
+          },
+          "Path": "/",
+        },
+      },
+      "Type": "AWS::EFS::AccessPoint",
+    },
+    "factorioserverefsec2maintenancesecuritygroupDD530DA6": {
+      "Properties": {
+        "GroupDescription": "MyTestStack/factorio-server-efs-ec2-maintenance-security-group",
+        "GroupName": "undefined-factorio-server-efs-ec2-maintenance-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": "vpc-12345",
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "factorioserverefssecuritygroupEF7491BC": {
+      "Properties": {
+        "GroupDescription": "MyTestStack/factorio-server-efs-security-group",
+        "GroupName": "undefined-factorio-server-efs-security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "Description": "Allow EC2 access for managing data",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "SourceSecurityGroupId": {
+              "Fn::GetAtt": [
+                "factorioserverefsec2maintenancesecuritygroupDD530DA6",
+                "GroupId",
+              ],
+            },
+            "ToPort": 65535,
+          },
+          {
+            "Description": "allow ECS access",
+            "FromPort": 0,
+            "IpProtocol": "tcp",
+            "SourceSecurityGroupId": {
+              "Fn::GetAtt": [
+                "factorioecssecuritygroup741C5480",
+                "GroupId",
+              ],
+            },
+            "ToPort": 65535,
+          },
+        ],
+        "VpcId": "vpc-12345",
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "factorioserverloggroup0F8516BE": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/ecs/undefined-Factorio-Server",
+        "RetentionInDays": 731,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "factorioserverserviceService16CF24DA": {
+      "DependsOn": [
+        "FactorioserverecstaskroleDefaultPolicy54EF00FF",
+        "FactorioserverecstaskroleA07111A6",
+      ],
+      "Properties": {
+        "CapacityProviderStrategy": [
+          {
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": {
+          "Ref": "factorioservercluster809E5F7B",
+        },
+        "DeploymentConfiguration": {
+          "Alarms": {
+            "AlarmNames": [],
+            "Enable": false,
+            "Rollback": false,
+          },
+          "MaximumPercent": 100,
+          "MinimumHealthyPercent": 0,
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "EnableExecuteCommand": true,
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "ENABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "factorioecssecuritygroup741C5480",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": [
+              "s-12345",
+              "s-67890",
+            ],
+          },
+        },
+        "ServiceName": "undefined-factorio-server-ecs-service",
+        "TaskDefinition": {
+          "Ref": "factoriotaskdefinition717F3AFF",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "factoriotaskdefinition717F3AFF": {
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Essential": true,
+            "Image": "factoriotools/factorio:stable",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "factorioserverloggroup0F8516BE",
+                },
+                "awslogs-region": "us-east-1",
+                "awslogs-stream-prefix": "factorio-server-logs",
+              },
+            },
+            "MountPoints": [
+              {
+                "ContainerPath": "/factorio",
+                "ReadOnly": false,
+                "SourceVolume": "undefined-factorio-server-task-volume",
+              },
+            ],
+            "Name": "undefined-factorio-server-container",
+            "PortMappings": [
+              {
+                "ContainerPort": 34197,
+                "HostPort": 34197,
+                "Name": "factorio-udp-mapping",
+                "Protocol": "udp",
+              },
+              {
+                "ContainerPort": 27015,
+                "HostPort": 27015,
+                "Name": "factorio-tcp-mapping",
+                "Protocol": "tcp",
+              },
+            ],
+          },
+        ],
+        "Cpu": "2048",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "factoriotaskdefinitionExecutionRole12FF31B2",
+            "Arn",
+          ],
+        },
+        "Family": "MyTestStackfactoriotaskdefinition16D63794",
+        "Memory": "4096",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE",
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "FactorioserverecstaskroleA07111A6",
+            "Arn",
+          ],
+        },
+        "Volumes": [
+          {
+            "EFSVolumeConfiguration": {
+              "FilesystemId": {
+                "Ref": "factorioserverefs4E9910A3",
+              },
+              "RootDirectory": "/",
+            },
+            "Name": "undefined-factorio-server-task-volume",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "factoriotaskdefinitionExecutionRole12FF31B2": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "factoriotaskdefinitionExecutionRoleDefaultPolicyE8767ED3": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "factorioserverloggroup0F8516BE",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "factoriotaskdefinitionExecutionRoleDefaultPolicyE8767ED3",
+        "Roles": [
+          {
+            "Ref": "factoriotaskdefinitionExecutionRole12FF31B2",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;
