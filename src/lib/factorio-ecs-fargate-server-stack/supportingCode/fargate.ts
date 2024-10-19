@@ -1,4 +1,4 @@
-import { RemovalPolicy } from "aws-cdk-lib";
+import { RemovalPolicy, CfnOutput } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { ManagedPolicy, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { Cluster, Compatibility, ContainerImage, FargateService, LogDriver, NetworkMode, TaskDefinition } from "aws-cdk-lib/aws-ecs";
@@ -6,7 +6,7 @@ import { Peer, Port, SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Protocol } from "aws-cdk-lib/aws-ecs";
 import { LifecyclePolicy, PerformanceMode, ThroughputMode, FileSystem, AccessPoint, } from "aws-cdk-lib/aws-efs";
 import { LogGroup } from "aws-cdk-lib/aws-logs";
-import { vpcName } from "../../resources/constants";
+import { factorioFileSystemId_CFN_Output, vpcName } from "../../resources/constants";
 
 export function createFargate(stack: Construct) {
 
@@ -63,7 +63,10 @@ export function createFargate(stack: Construct) {
     fileSystemName:`${deploymentType}-factorio-server-efs`,
     allowAnonymousAccess:true,
   });
-
+  new CfnOutput(stack, "ec2RoleArn", {
+    value: factorioDataEFS.fileSystemId,
+    exportName: factorioFileSystemId_CFN_Output,
+  });
   const factorioDataEFSAccessPoint = new AccessPoint(stack, "factorio-server-efs-access-point",  {
     fileSystem: factorioDataEFS,
     path: "/",

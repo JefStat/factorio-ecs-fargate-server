@@ -55,7 +55,27 @@ exports[`FactorioEc2EfsStack Synths Stack 1`] = `
           },
         ],
         "UserData": {
-          "Fn::Base64": "#!/bin/bash",
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash
+yum check-update -y
+yum upgrade -y
+yum install -y amazon-efs-utils
+yum install -y nfs-utils
+file_system_id_1=",
+                {
+                  "Fn::ImportValue": "undefined-factorio-fileSystemId",
+                },
+                "
+efs_mount_point_1=/mnt/efs/fs1
+mkdir -p "\${efs_mount_point_1}"
+test -f "/sbin/mount.efs" && echo "\${file_system_id_1}:/ \${efs_mount_point_1} efs defaults,_netdev" >> /etc/fstab || echo "\${file_system_id_1}.efs.undefined.amazonaws.com:/ \${efs_mount_point_1} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport,_netdev 0 0" >> /etc/fstab
+mount -a -t efs,nfs4 defaults",
+              ],
+            ],
+          },
         },
       },
       "Type": "AWS::EC2::Instance",

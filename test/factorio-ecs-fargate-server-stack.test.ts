@@ -8,6 +8,7 @@ const env = {
   region: 'us-east-1',
   account: '111222333444',
 };
+process.env.deploymentType = 'test';
 
 describe('FactorioEcsFargateServerStack', () => {
   test('Synths Stack', async () => {

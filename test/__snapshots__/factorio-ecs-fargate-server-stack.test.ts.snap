@@ -2,6 +2,16 @@
 
 exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
 {
+  "Outputs": {
+    "ec2RoleArn": {
+      "Export": {
+        "Name": "undefined-factorio-fileSystemId",
+      },
+      "Value": {
+        "Ref": "factorioserverefs4E9910A3",
+      },
+    },
+  },
   "Resources": {
     "FactorioserverecstaskroleA07111A6": {
       "Properties": {
@@ -31,7 +41,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
             ],
           },
         ],
-        "RoleName": "undefined-Factorio-server-ecs-task-role",
+        "RoleName": "test-Factorio-server-ecs-task-role",
       },
       "Type": "AWS::IAM::Role",
     },
@@ -78,7 +88,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
     "factorioecssecuritygroup741C5480": {
       "Properties": {
         "GroupDescription": "MyTestStack/factorio-ecs-security-group",
-        "GroupName": "undefined-factorio-server-ecs-security-group",
+        "GroupName": "test-factorio-server-ecs-security-group",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -121,7 +131,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
     },
     "factorioservercluster809E5F7B": {
       "Properties": {
-        "ClusterName": "undefined-factorio-server-cluster",
+        "ClusterName": "test-factorio-server-cluster",
         "ClusterSettings": [
           {
             "Name": "containerInsights",
@@ -138,7 +148,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
         "FileSystemTags": [
           {
             "Key": "Name",
-            "Value": "undefined-factorio-server-efs",
+            "Value": "test-factorio-server-efs",
           },
         ],
         "LifecyclePolicies": [
@@ -215,7 +225,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
     "factorioserverefsec2maintenancesecuritygroupDD530DA6": {
       "Properties": {
         "GroupDescription": "MyTestStack/factorio-server-efs-ec2-maintenance-security-group",
-        "GroupName": "undefined-factorio-server-efs-ec2-maintenance-security-group",
+        "GroupName": "test-factorio-server-efs-ec2-maintenance-security-group",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -230,7 +240,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
     "factorioserverefssecuritygroupEF7491BC": {
       "Properties": {
         "GroupDescription": "MyTestStack/factorio-server-efs-security-group",
-        "GroupName": "undefined-factorio-server-efs-security-group",
+        "GroupName": "test-factorio-server-efs-security-group",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -271,7 +281,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
     "factorioserverloggroup0F8516BE": {
       "DeletionPolicy": "Delete",
       "Properties": {
-        "LogGroupName": "/ecs/undefined-Factorio-Server",
+        "LogGroupName": "/ecs/test-Factorio-Server",
         "RetentionInDays": 731,
       },
       "Type": "AWS::Logs::LogGroup",
@@ -321,7 +331,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
             ],
           },
         },
-        "ServiceName": "undefined-factorio-server-ecs-service",
+        "ServiceName": "test-factorio-server-ecs-service",
         "TaskDefinition": {
           "Ref": "factoriotaskdefinition717F3AFF",
         },
@@ -348,10 +358,10 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
               {
                 "ContainerPath": "/factorio",
                 "ReadOnly": false,
-                "SourceVolume": "undefined-factorio-server-task-volume",
+                "SourceVolume": "test-factorio-server-task-volume",
               },
             ],
-            "Name": "undefined-factorio-server-container",
+            "Name": "test-factorio-server-container",
             "PortMappings": [
               {
                 "ContainerPort": 34197,
@@ -395,7 +405,7 @@ exports[`FactorioEcsFargateServerStack Synths Stack 1`] = `
               },
               "RootDirectory": "/",
             },
-            "Name": "undefined-factorio-server-task-volume",
+            "Name": "test-factorio-server-task-volume",
           },
         ],
       },
