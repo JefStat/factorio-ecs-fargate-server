@@ -32,7 +32,7 @@ Use the commands below to deploy out the stacks. Start with the infrastructure s
 
 * `cdk deploy factorio-shared-FactorioEcsFargateServerInfrastructureStack --profile tealfawn`
 * `cdk deploy factorio-one-FactorioEcsFargateServerStack --profile tealfawn`
-* `cdk deploy factorio-one-FactorioEcsFargateServerStack --profile tealfawn`
+* `cdk deploy factorio-one-FactorioEc2EfsStack --profile tealfawn`
 
 ## Maintaining the ECS service
 
