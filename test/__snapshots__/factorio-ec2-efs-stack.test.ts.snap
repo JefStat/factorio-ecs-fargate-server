@@ -51,7 +51,7 @@ exports[`FactorioEc2EfsStack Synths Stack 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "undefined-factorio-efs-access",
+            "Value": "test-factorio-efs-access",
           },
         ],
         "UserData": {
@@ -66,7 +66,7 @@ yum install -y amazon-efs-utils
 yum install -y nfs-utils
 file_system_id_1=",
                 {
-                  "Fn::ImportValue": "undefined-factorio-fileSystemId",
+                  "Fn::ImportValue": "test-factorio-fileSystemId",
                 },
                 "
 efs_mount_point_1=/mnt/efs/fs1
@@ -107,7 +107,7 @@ mount -a -t efs,nfs4 defaults",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "undefined-factorio-efs-access",
+            "Value": "test-factorio-efs-access",
           },
         ],
       },
@@ -116,7 +116,7 @@ mount -a -t efs,nfs4 defaults",
     "factorioec2efsaccesssecuritygroup2B5EBD25": {
       "Properties": {
         "GroupDescription": "MyTestStack/factorio-ec2-efs-access-security-group",
-        "GroupName": "undefined-factorio-ec2-efs-access-security-group",
+        "GroupName": "test-factorio-ec2-efs-access-security-group",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -136,6 +136,22 @@ mount -a -t efs,nfs4 defaults",
         "VpcId": "vpc-12345",
       },
       "Type": "AWS::EC2::SecurityGroup",
+    },
+    "testfactorioserverefssecuritygroupfromMyTestStackfactorioec2efsaccesssecuritygroup4087B3372049F9C62ED5": {
+      "Properties": {
+        "Description": "from MyTestStackfactorioec2efsaccesssecuritygroup4087B337:2049",
+        "FromPort": 2049,
+        "GroupId": "sg-12345678",
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "factorioec2efsaccesssecuritygroup2B5EBD25",
+            "GroupId",
+          ],
+        },
+        "ToPort": 2049,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
     },
   },
 }

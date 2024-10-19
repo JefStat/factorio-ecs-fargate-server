@@ -1,3 +1,4 @@
+import './test-env';
 import { SynthUtils } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
 import {
@@ -8,7 +9,6 @@ const env = {
   region: 'us-east-1',
   account: '111222333444',
 };
-process.env.deploymentType = 'test';
 
 describe('FactorioEcsFargateServerStack', () => {
   test('Synths Stack', async () => {

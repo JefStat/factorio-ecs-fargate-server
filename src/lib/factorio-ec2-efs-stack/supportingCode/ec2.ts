@@ -3,8 +3,9 @@ import {
   Instance, Vpc, InstanceType, InstanceClass, InstanceSize, MachineImage,
   KeyPair, SecurityGroup, Peer, Port, SubnetType
 } from "aws-cdk-lib/aws-ec2";
+import { FileSystem } from "aws-cdk-lib/aws-efs";
 import { Construct } from "constructs";
-import { factorioFileSystemId_CFN_Output, vpcName } from '../../resources/constants';
+import { efsSecurityGroupName, factorioFileSystemId_CFN_Output, vpcName } from '../../resources/constants';
 
 export function createEc2(stack: Construct) {
   const {deploymentType, publicKey, localIp, region} = process.env;
@@ -38,6 +39,12 @@ export function createEc2(stack: Construct) {
     keyPair,
   });
 
+  const efsSecurityGroup = SecurityGroup.fromLookupByName(stack, efsSecurityGroupName, efsSecurityGroupName, vpc);
+  const fileSystem = FileSystem.fromFileSystemAttributes(stack, "fileSystem", {
+    fileSystemId: Fn.importValue(factorioFileSystemId_CFN_Output),
+    securityGroup: efsSecurityGroup,
+  });
+  fileSystem.connections.allowDefaultPortFrom(instance);
 
   instance.userData.addCommands(
     "yum check-update -y",

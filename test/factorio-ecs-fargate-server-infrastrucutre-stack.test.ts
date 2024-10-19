@@ -1,3 +1,4 @@
+import './test-env';
 import { SynthUtils } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
 import {

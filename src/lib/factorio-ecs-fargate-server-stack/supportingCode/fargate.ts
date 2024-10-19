@@ -6,7 +6,7 @@ import { Peer, Port, SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Protocol } from "aws-cdk-lib/aws-ecs";
 import { LifecyclePolicy, PerformanceMode, ThroughputMode, FileSystem, AccessPoint, } from "aws-cdk-lib/aws-efs";
 import { LogGroup } from "aws-cdk-lib/aws-logs";
-import { factorioFileSystemId_CFN_Output, vpcName } from "../../resources/constants";
+import { efsSecurityGroupName, factorioFileSystemId_CFN_Output, vpcName } from "../../resources/constants";
 
 export function createFargate(stack: Construct) {
 
@@ -32,11 +32,11 @@ export function createFargate(stack: Construct) {
     roleName:`${deploymentType}-${fargateFactorioServerRoleName}`,
   });
 
-  const efsSecurityGroupName = "factorio-server-efs-security-group"
+
   const efsSG = new SecurityGroup(stack, efsSecurityGroupName, {
     vpc,
     allowAllOutbound: true,
-    securityGroupName: `${deploymentType}-${efsSecurityGroupName}`,
+    securityGroupName: efsSecurityGroupName,
   });
 
   const ec2EFSMaintenanceSecurityGroupName = "factorio-server-efs-ec2-maintenance-security-group"
