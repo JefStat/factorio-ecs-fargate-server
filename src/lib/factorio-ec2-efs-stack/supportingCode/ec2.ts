@@ -37,6 +37,7 @@ export function createEc2(stack: Construct) {
     associatePublicIpAddress: true,
     securityGroup,
     keyPair,
+
   });
 
   const efsSecurityGroup = SecurityGroup.fromLookupByName(stack, efsSecurityGroupName, efsSecurityGroupName, vpc);
