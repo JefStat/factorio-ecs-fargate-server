@@ -127,7 +127,14 @@ mount -a -t efs,nfs4 defaults",
         "SecurityGroupIngress": [
           {
             "CidrIp": "127.0.0.1/32",
-            "Description": "Allow SSH access from local",
+            "Description": "Allow SSH access",
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22,
+          },
+          {
+            "CidrIp": "127.0.0.2/32",
+            "Description": "Allow SSH access",
             "FromPort": 22,
             "IpProtocol": "tcp",
             "ToPort": 22,

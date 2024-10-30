@@ -8,7 +8,7 @@ import { Construct } from "constructs";
 import { efsSecurityGroupName, factorioFileSystemId_CFN_Output, vpcName } from '../../resources/constants';
 
 export function createEc2(stack: Construct) {
-  const {deploymentType, publicKey, localIp, region} = process.env;
+  const {deploymentType, publicKey, region, numberOfAllowedIps} = process.env;
   const vpc = Vpc.fromLookup(stack, "vpc", {
     vpcName,
   });
@@ -23,7 +23,9 @@ export function createEc2(stack: Construct) {
     allowAllOutbound: true,
     securityGroupName: `${deploymentType}-${ec2SecurityGroupName}`,
   });
-  securityGroup.addIngressRule(Peer.ipv4(`${localIp}/32`), Port.tcp(22), 'Allow SSH access from local');
+  for (let i = 1; i <= parseInt(numberOfAllowedIps || ''); i++) {
+    securityGroup.addIngressRule(Peer.ipv4(`${process.env['Ip'+i]}/32`), Port.tcp(22), 'Allow SSH access');
+  }
 
   // Amazon Linux 2
   const instance = new Instance(stack, 'efs-access-ec2', {
